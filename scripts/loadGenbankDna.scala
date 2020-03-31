@@ -32,7 +32,7 @@ if (!inputPath.isDefined || !outputPath.isDefined) {
   System.exit(1)
 }
 
-val sequences = bac.loadGenbankDna(inputPath.get)
+val sequences = bac.loadGenbankDna(inputPath.get).createSequenceDictionary()
 
 logger.info("Saving DNA sequences to output path %s ...".format(outputPath.get))
 sequences.save(outputPath.get, asSingleFile = true, disableFastConcat = false)

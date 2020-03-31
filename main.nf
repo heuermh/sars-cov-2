@@ -21,17 +21,15 @@ params.dir = "${baseDir}"
 genbankFiles = "${params.dir}/**.gb.gz"
 genbanks = Channel.fromPath(genbankFiles).map { path -> tuple(path.simpleName, path) }
 
-(to_sequences, to_features) = genbanks.into(2)
-
 process transformSequences {
   tag { sample }
-  publishDir "$sample", mode: 'move'
+  publishDir "$sample", mode: 'copy'
 
   input:
-  set sample, file (genbank) from to_sequences
+  set sample, file (genbank) from genbanks
 
   output:
-  set sample, file ("${sample}.sequences.adam/*") into sequences
+  set sample, file (genbank), file ("${sample}.sequences.adam") into sequences
 
   """
   INPUT=$genbank \
@@ -47,16 +45,17 @@ process transformSequences {
 
 process transformFeatures {
   tag { sample }
-  publishDir "$sample", mode: 'move'
+  publishDir "$sample", mode: 'copy'
 
   input:
-  set sample, file (genbank) from to_features
+  set sample, file (genbank), file (sequences) from sequences
 
   output:
-  set sample, file ("${sample}.features.adam/*") into features
+  set sample, file ("${sample}.features.adam") into features
 
   """
-  INPUT=$genbank \
+  GENBANK=$genbank \
+  SEQUENCES=$sequences \
   OUTPUT=${sample}.features.adam \
   spark-shell \
     $params.sparkOpts \

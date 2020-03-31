@@ -24,15 +24,18 @@ Logger.getLogger("org.biojava").setLevel(Level.INFO)
 import org.biojava.nbio.adam.BiojavaAdamContext
 val bac = BiojavaAdamContext(sc)
 
-val inputPath = Option(System.getenv("INPUT"))
+val genbankPath = Option(System.getenv("GENBANK"))
+val sequencesPath = Option(System.getenv("SEQUENCES"))
 val outputPath = Option(System.getenv("OUTPUT"))
 
-if (!inputPath.isDefined || !outputPath.isDefined) {
-  logger.error("INPUT and OUTPUT environment variables are required")
+if (!genbankPath.isDefined || !sequencesPath.isDefined || !outputPath.isDefined) {
+  logger.error("GENBANK, SEQUENCES, and OUTPUT environment variables are required")
   System.exit(1)
 }
 
-val features = bac.loadGenbankDnaFeatures(inputPath.get)
+import org.bdgenomics.adam.rdd.ADAMContext._
+val sequences = sc.loadParquetSequences(sequencesPath.get)
+val features = bac.loadGenbankDnaFeatures(genbankPath.get).replaceSequences(sequences.sequences)
 
 logger.info("Saving DNA sequence features to output path %s ...".format(outputPath.get))
 features.save(outputPath.get, asSingleFile = true, disableFastConcat = false)
