@@ -39,7 +39,7 @@ process transformSequences {
     $params.sparkOpts \
     --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
     --conf spark.kryo.registrator=org.biojava.nbio.adam.BiojavaKryoRegistrator \
-    --packages org.bdgenomics.adam:adam-assembly-spark2_2.11:0.31.0,org.biojava:biojava-adam:0.3.0-SNAPSHOT \
+    --packages org.bdgenomics.adam:adam-assembly-spark2_2.11:0.31.0,org.biojava:biojava-adam:0.3.0 \
     -i $baseDir/scripts/loadGenbankDna.scala
   """
 }
@@ -63,7 +63,7 @@ process transformFeatures {
     $params.sparkOpts \
     --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
     --conf spark.kryo.registrator=org.biojava.nbio.adam.BiojavaKryoRegistrator \
-    --packages org.bdgenomics.adam:adam-assembly-spark2_2.11:0.31.0,org.biojava:biojava-adam:0.3.0-SNAPSHOT \
+    --packages org.bdgenomics.adam:adam-assembly-spark2_2.11:0.31.0,org.biojava:biojava-adam:0.3.0 \
     -i $baseDir/scripts/loadGenbankDnaFeatures.scala
   """
 }
