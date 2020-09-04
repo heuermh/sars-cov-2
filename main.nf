@@ -24,7 +24,7 @@ genbanks = Channel.fromPath(genbankFiles).map { path -> tuple(path.simpleName, p
 process transformSequences {
   tag { sample }
   publishDir "$sample", mode: 'copy'
-  container "quay.io/biocontainers/adam:0.31.0--0"
+  container "quay.io/biocontainers/adam:0.32.0--0"
 
   input:
   set sample, file (genbank) from genbanks
@@ -39,7 +39,7 @@ process transformSequences {
     $params.sparkOpts \
     --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
     --conf spark.kryo.registrator=org.biojava.nbio.adam.BiojavaKryoRegistrator \
-    --packages org.bdgenomics.adam:adam-assembly-spark2_2.11:0.31.0,org.biojava:biojava-adam:0.3.0 \
+    --packages org.bdgenomics.adam:adam-assembly-spark3_2.12:0.32.0,org.biojava:biojava-adam:0.4.0 \
     -i $baseDir/scripts/loadGenbankDna.scala
   """
 }
@@ -47,7 +47,7 @@ process transformSequences {
 process transformFeatures {
   tag { sample }
   publishDir "$sample", mode: 'copy'
-  container "quay.io/biocontainers/adam:0.31.0--0"
+  container "quay.io/biocontainers/adam:0.32.0--0"
 
   input:
   set sample, file (genbank), file (sequences) from sequences
@@ -63,7 +63,7 @@ process transformFeatures {
     $params.sparkOpts \
     --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
     --conf spark.kryo.registrator=org.biojava.nbio.adam.BiojavaKryoRegistrator \
-    --packages org.bdgenomics.adam:adam-assembly-spark2_2.11:0.31.0,org.biojava:biojava-adam:0.3.0 \
+    --packages org.bdgenomics.adam:adam-assembly-spark3_2.12:0.32.0,org.biojava:biojava-adam:0.4.0 \
     -i $baseDir/scripts/loadGenbankDnaFeatures.scala
   """
 }
