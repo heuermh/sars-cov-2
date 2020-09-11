@@ -17,13 +17,17 @@
  */
 
 params.dir = "${baseDir}"
-params.acc = "${params.dir}/sequences.acc"
-params.seq = "${params.dir}/sequences.gb"
-params.efetchBatchSize = 400
+params.acc = "${params.dir}/sars-cov-2.acc"
+params.seq = "${params.dir}/sars-cov-2.gb"
+params.efetchBatchSize = 200
 
-accessions = Channel.fromPath(params.acc).splitText(by: params.efetchBatchSize).map { it.replace("\n", ",") }
+accessions = Channel
+  .fromPath(params.acc)
+  .splitText(by: params.efetchBatchSize).map { it.replace("\n", ",") }
 
 process efetch {
+  container "quay.io/biocontainers/entrez-direct:13.8--pl526h375a9b1_0"
+
   input:
   val acc from accessions
   output:
@@ -36,5 +40,3 @@ process efetch {
 }
 
 sequences.collectFile(name: params.seq, newLine: false)
-
-// todo: gzip to sars-cov-2.gb.gz
