@@ -18,7 +18,7 @@
 
 params.dir = "${baseDir}"
 
-genbankFiles = "${params.dir}/**.gb.gz"
+genbankFiles = "${params.dir}/**.gb"
 genbanks = Channel.fromPath(genbankFiles).map { path -> tuple(path.simpleName, path) }
 
 process transformSequences {
