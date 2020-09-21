@@ -18,25 +18,25 @@
 
 params.dir = "${baseDir}"
 params.acc = "${params.dir}/sars-cov-2.acc"
-params.seq = "${params.dir}/sars-cov-2.gb"
 params.efetchBatchSize = 200
 
 accessions = Channel
   .fromPath(params.acc)
-  .splitText(by: params.efetchBatchSize).map { it.replace("\n", ",") }
+  .splitText(by: params.efetchBatchSize)
+  .map { it.split("\n") }
+  .map { [ it[0], it[it.length - 1], it.join(",") ] }
 
 process efetch {
   container "quay.io/biocontainers/entrez-direct:13.8--pl526h375a9b1_0"
 
   input:
   val acc from accessions
+
   output:
-  file 'seq.gb' into sequences
+  file "${acc.get(0)}-${acc.get(1)}.gb" into sequences
 
   """
   sleep 1
-  efetch -db nucleotide -format gb -mode text -id $acc > seq.gb
+  efetch -db nucleotide -format gb -mode text -id ${acc.get(2)} > ${acc.get(0)}-${acc.get(1)}.gb
   """
 }
-
-sequences.collectFile(name: params.seq, newLine: false)

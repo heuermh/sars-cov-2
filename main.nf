@@ -23,7 +23,7 @@ genbanks = Channel.fromPath(genbankFiles).map { path -> tuple(path.simpleName, p
 
 process transformSequences {
   tag { sample }
-  publishDir "$sample", mode: 'copy'
+  publishDir "results/$sample", mode: 'copy'
   container "quay.io/biocontainers/adam:0.32.0--0"
 
   input:
@@ -46,7 +46,7 @@ process transformSequences {
 
 process transformFeatures {
   tag { sample }
-  publishDir "$sample", mode: 'copy'
+  publishDir "results/$sample", mode: 'copy'
   container "quay.io/biocontainers/adam:0.32.0--0"
 
   input:
