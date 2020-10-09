@@ -18,39 +18,39 @@
 
 params.resultsDir = "${baseDir}/results"
 
-samples = Channel.of('sars-cov-2')
+samples = Channel.fromPath("${params.resultsDir}").map{ p -> tuple('sars-cov-2', p) }
 (sequences,features) = samples.into(2)
 
 process unionSequences {
-  publishDir "${params.resultsDir}", mode: 'copy'
+  publishDir "$results", mode: 'copy'
   container 'quay.io/biocontainers/adam:0.32.0--0'
 
   input:
-  val sample from sequences
+  set sample, path(results) from sequences
 
   """
   adam-submit \
     ${params.sparkOpts} \
     -- \
     transformSequences \
-    \"${params.resultsDir}/**.sequences.adam/*\" \
-    ${params.resultsDir}/${sample}.sequences.adam
+    \"${results}/**/*.sequences.adam/*\" \
+    ${results}/${sample}.sequences.adam
   """
 }
 
 process unionFeatures {
-  publishDir "${params.resultsDir}", mode: 'copy'
+  publishDir "$results", mode: 'copy'
   container 'quay.io/biocontainers/adam:0.32.0--0'
 
   input:
-  val sample from features
+  set sample, path(results) from features
 
   """
   adam-submit \
     ${params.sparkOpts} \
     -- \
     transformFeatures \
-    \"${params.resultsDir}/**.features.adam/*\" \
-    ${params.resultsDir}/${sample}.features.adam
+    \"${results}/**/*.features.adam/*\" \
+    ${results}/${sample}.features.adam
   """
 }
