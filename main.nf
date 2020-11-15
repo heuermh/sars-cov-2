@@ -35,11 +35,10 @@ process transformSequences {
   """
   INPUT=$genbank \
   OUTPUT=${sample}.sequences.adam \
-  spark-shell \
+  adam-shell \
     $params.sparkOpts \
-    --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
     --conf spark.kryo.registrator=org.biojava.nbio.adam.BiojavaKryoRegistrator \
-    --packages org.bdgenomics.adam:adam-assembly-spark3_2.12:0.32.0,org.biojava:biojava-adam:0.4.0 \
+    --packages org.biojava:biojava-adam:0.4.0 \
     -i $baseDir/scripts/loadGenbankDna.scala
   """
 }
@@ -59,11 +58,10 @@ process transformFeatures {
   GENBANK=$genbank \
   SEQUENCES=$sequences \
   OUTPUT=${sample}.features.adam \
-  spark-shell \
+  adam-shell \
     $params.sparkOpts \
-    --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
     --conf spark.kryo.registrator=org.biojava.nbio.adam.BiojavaKryoRegistrator \
-    --packages org.bdgenomics.adam:adam-assembly-spark3_2.12:0.32.0,org.biojava:biojava-adam:0.4.0 \
+    --packages org.biojava:biojava-adam:0.4.0 \
     -i $baseDir/scripts/loadGenbankDnaFeatures.scala
   """
 }

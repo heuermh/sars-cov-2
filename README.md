@@ -25,3 +25,24 @@ Union all `Sequence` and `Feature` records into single data sets
 ```bash
 $ nextflow run union.nf
 ```
+
+
+### Running with Docker containers
+
+Use the `docker` profile to run with Docker containers, e.g.
+```bash
+$ nextflow run prepare.nf -profile docker
+```
+
+
+### Apache Spark configuration
+
+Configuration for Apache Spark can be provided via `--sparkOpts`
+```bash
+$ nextflow run main.nf --sparkOpts="--master local[*] --driver-memory 16g"
+```
+
+or by defining a profile in [`nextflow.config`](https://github.com/heuermh/sars-cov-2/blob/master/nextflow.config), e.g.
+```bash
+$ nextflow run main.nf -profile yarn
+```
