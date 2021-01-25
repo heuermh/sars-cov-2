@@ -38,7 +38,7 @@ process transformSequences {
   adam-shell \
     $params.sparkOpts \
     --conf spark.kryo.registrator=org.biojava.nbio.adam.BiojavaKryoRegistrator \
-    --packages org.biojava:biojava-adam:0.4.0 \
+    --packages org.biojava:biojava-adam:0.5.0 \
     -i $baseDir/scripts/loadGenbankDna.scala
   """
 }
@@ -61,7 +61,7 @@ process transformFeatures {
   adam-shell \
     $params.sparkOpts \
     --conf spark.kryo.registrator=org.biojava.nbio.adam.BiojavaKryoRegistrator \
-    --packages org.biojava:biojava-adam:0.4.0 \
+    --packages org.biojava:biojava-adam:0.5.0 \
     -i $baseDir/scripts/loadGenbankDnaFeatures.scala
   """
 }
