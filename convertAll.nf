@@ -26,14 +26,13 @@ gff3s = Channel.value(tuple('sars-cov-2', gff3Files))
 
 process transformSequences {
   tag { sample }
-  publishDir "results/$sample", mode: 'copy'
   container "quay.io/biocontainers/adam:0.33.0--0"
 
   input:
   set sample, fasta from fastas
 
   output:
-  set sample, fasta, file ("${sample}.sequences.adam") into sequences
+  set sample, fasta, "${sample}.sequences.adam" into sequences
 
   """
   adam-submit \
@@ -47,14 +46,13 @@ process transformSequences {
 
 process transformFeatures {
   tag { sample }
-  publishDir "results/$sample", mode: 'copy'
   container "quay.io/biocontainers/adam:0.33.0--0"
 
   input:
   set sample, gff3 from gff3s
 
   output:
-  set sample, gff3, file ("${sample}.features.adam") into features
+  set sample, gff3, "${sample}.features.adam" into features
 
   """
   adam-submit \
