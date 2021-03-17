@@ -23,7 +23,7 @@ samples = Channel.fromPath("${params.resultsDir}").map{ p -> tuple('sars-cov-2',
 
 process unionSequences {
   publishDir "$results", mode: 'copy'
-  container 'quay.io/biocontainers/adam:0.33.0--0'
+  container 'quay.io/biocontainers/adam:0.34.0--0'
 
   input:
   set sample, path(results) from sequences
@@ -40,7 +40,7 @@ process unionSequences {
 
 process unionFeatures {
   publishDir "$results", mode: 'copy'
-  container 'quay.io/biocontainers/adam:0.33.0--0'
+  container 'quay.io/biocontainers/adam:0.34.0--0'
 
   input:
   set sample, path(results) from features

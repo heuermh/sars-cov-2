@@ -24,7 +24,7 @@ genbanks = Channel.fromPath(genbankFiles).map { path -> tuple(path.simpleName, p
 process transformSequences {
   tag { sample }
   publishDir "results/$sample", mode: 'copy'
-  container "quay.io/biocontainers/adam:0.33.0--0"
+  container "quay.io/biocontainers/adam:0.34.0--0"
 
   input:
   set sample, file (genbank) from genbanks
@@ -38,7 +38,7 @@ process transformSequences {
   adam-shell \
     $params.sparkOpts \
     --conf spark.kryo.registrator=org.biojava.nbio.adam.BiojavaKryoRegistrator \
-    --packages org.biojava:biojava-adam:0.5.0 \
+    --packages org.biojava:biojava-adam:0.6.0 \
     -i $baseDir/scripts/loadGenbankDna.scala
   """
 }
@@ -46,7 +46,7 @@ process transformSequences {
 process transformFeatures {
   tag { sample }
   publishDir "results/$sample", mode: 'copy'
-  container "quay.io/biocontainers/adam:0.33.0--0"
+  container "quay.io/biocontainers/adam:0.34.0--0"
 
   input:
   set sample, file (genbank), file (sequences) from sequences
@@ -61,7 +61,7 @@ process transformFeatures {
   adam-shell \
     $params.sparkOpts \
     --conf spark.kryo.registrator=org.biojava.nbio.adam.BiojavaKryoRegistrator \
-    --packages org.biojava:biojava-adam:0.5.0 \
+    --packages org.biojava:biojava-adam:0.6.0 \
     -i $baseDir/scripts/loadGenbankDnaFeatures.scala
   """
 }
