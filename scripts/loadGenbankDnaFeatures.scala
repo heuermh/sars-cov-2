@@ -33,7 +33,7 @@ if (!genbankPath.isDefined || !sequencesPath.isDefined || !outputPath.isDefined)
   System.exit(1)
 }
 
-import org.bdgenomics.adam.rdd.ADAMContext._
+import org.bdgenomics.adam.ds.ADAMContext._
 val sequences = sc.loadParquetSequences(sequencesPath.get)
 val features = bac.loadGenbankDnaFeatures(genbankPath.get).replaceSequences(sequences.sequences)
 
