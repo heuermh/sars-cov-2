@@ -16,8 +16,8 @@
  * under the License.
  */
 
-params.dir = "${baseDir}"
-params.acc = "${params.dir}/sars-cov-2.acc"
+params.acc = "${baseDir}/sars-cov-2.acc"
+params.resultsDir = "${baseDir}/results"
 params.efetchBatchSize = 200
 
 accessions = Channel
@@ -27,6 +27,7 @@ accessions = Channel
   .map { [ it[0], it[it.length - 1], it.join(",") ] }
 
 process efetch {
+  publishDir "${params.resultsDir}/genbank", mode: 'copy'
   container "quay.io/biocontainers/entrez-direct:13.8--pl526h375a9b1_0"
 
   input:

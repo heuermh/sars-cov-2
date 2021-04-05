@@ -16,14 +16,14 @@
  * under the License.
  */
 
-params.dir = "${baseDir}"
+params.resultsDir = "${baseDir}/results"
 
-genbankFiles = "${params.dir}/**.gb"
+genbankFiles = "${params.resultsDir}/genbank/**.gb"
 genbanks = Channel.fromPath(genbankFiles).map { path -> tuple(path.simpleName, path) }
 
 process transformSequences {
   tag { sample }
-  publishDir "results/$sample", mode: 'copy'
+  publishDir "${params.resultsDir}/$sample", mode: 'copy'
   container "quay.io/biocontainers/adam:0.34.0--0"
 
   input:
@@ -45,7 +45,7 @@ process transformSequences {
 
 process transformFeatures {
   tag { sample }
-  publishDir "results/$sample", mode: 'copy'
+  publishDir "${params.resultsDir}/$sample", mode: 'copy'
   container "quay.io/biocontainers/adam:0.34.0--0"
 
   input:

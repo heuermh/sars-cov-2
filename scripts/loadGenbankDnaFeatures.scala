@@ -35,7 +35,7 @@ if (!genbankPath.isDefined || !sequencesPath.isDefined || !outputPath.isDefined)
 
 import org.bdgenomics.adam.ds.ADAMContext._
 val sequences = sc.loadParquetSequences(sequencesPath.get)
-val features = bac.loadGenbankDnaFeatures(genbankPath.get).replaceSequences(sequences.sequences)
+val features = bac.loadGenbankDnaFeatures(genbankPath.get).replaceReferences(sequences.references)
 
 logger.info("Saving DNA sequence features to output path %s ...".format(outputPath.get))
 features.save(outputPath.get, asSingleFile = true, disableFastConcat = false)
