@@ -26,7 +26,7 @@ gff3s = Channel.value(tuple('sars-cov-2', gff3Files))
 
 process transformSequences {
   tag { sample }
-  container "quay.io/biocontainers/adam:0.34.0--0"
+  container "quay.io/biocontainers/adam:0.35.0--hdfd78af_0"
 
   input:
   set sample, fasta from fastas
@@ -46,7 +46,7 @@ process transformSequences {
 
 process transformFeatures {
   tag { sample }
-  container "quay.io/biocontainers/adam:0.34.0--0"
+  container "quay.io/biocontainers/adam:0.35.0--hdfd78af_0"
 
   input:
   set sample, gff3 from gff3s
