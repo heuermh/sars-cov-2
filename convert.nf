@@ -27,7 +27,7 @@ gff3s = Channel.fromPath(gff3Files).map { path -> tuple(path.simpleName, path) }
 process transformSequences {
   tag { sample }
   publishDir "results/$sample", mode: 'copy'
-  container "quay.io/biocontainers/adam:0.35.0--hdfd78af_0"
+  container "quay.io/biocontainers/adam:0.36.0--hdfd78af_0"
 
   input:
   set sample, file (fasta) from fastas
@@ -48,7 +48,7 @@ process transformSequences {
 process transformFeatures {
   tag { sample }
   publishDir "results/$sample", mode: 'copy'
-  container "quay.io/biocontainers/adam:0.35.0--hdfd78af_0"
+  container "quay.io/biocontainers/adam:0.36.0--hdfd78af_0"
 
   input:
   set sample, file (gff3) from gff3s
